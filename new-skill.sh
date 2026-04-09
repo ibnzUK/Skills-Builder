@@ -2,6 +2,8 @@
 set -euo pipefail
 
 SKILLS_DIR="$HOME/.claude/skills"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_SKILLS_DIR="$SCRIPT_DIR/.claude/skills"
 
 divider() { printf '%0.s─' {1..60}; echo; }
 println() { echo "${1:-}"; }
@@ -9,7 +11,12 @@ println() { echo "${1:-}"; }
 ask() {
   local prompt="$1"
   printf "%s\n> " "$prompt" >&2
-  read -r answer </dev/tty
+  # Read with escape detection: if user presses Escape, exit
+  IFS= read -r answer </dev/tty
+  if [[ "$answer" == *$'\033'* ]]; then
+    printf "\nExiting.\n" >&2
+    exit 0
+  fi
   echo "$answer"
 }
 
@@ -52,9 +59,17 @@ save_skill() {
   local name="$2"
   local sanitized
   sanitized=$(echo "$name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
+
+  # Save to ~/.claude/skills (Claude Code global)
   local dir="$SKILLS_DIR/$sanitized"
   mkdir -p "$dir"
   printf '%s\n' "$content" > "$dir/SKILL.md"
+
+  # Mirror to project .claude/skills for git tracking
+  local project_dir="$PROJECT_SKILLS_DIR/$sanitized"
+  mkdir -p "$project_dir"
+  printf '%s\n' "$content" > "$project_dir/SKILL.md"
+
   echo "$dir"
 }
 
@@ -150,9 +165,12 @@ if [[ "$confirm" =~ ^[Yy]$ ]]; then
   sanitized=$(echo "$skill_name" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd 'a-z0-9-')
   skill_dir=$(save_skill "$skill_content" "$skill_name")
   println ""
-  println "✓ Created: $skill_dir/"
-  println "  ├── SKILL.md"
-  println "  └── ${sanitized}.md"
+  println "✓ Saved to: $skill_dir/SKILL.md"
+  println "✓ Mirrored to: $PROJECT_SKILLS_DIR/$sanitized/SKILL.md"
+  println ""
+  println "To commit to git:"
+  println "  git add .claude/skills/$sanitized/"
+  println "  git commit -m \"Add $sanitized skill\""
   println ""
 else
   println "Cancelled."
