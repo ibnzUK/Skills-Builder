@@ -9,3 +9,5 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+
+.DS_Store
