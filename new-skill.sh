@@ -84,7 +84,7 @@ println ""
 divider
 println ""
 
-skill_name=$(ask "1. Skill name (e.g. 'commit', 'review-pr'):")
+skill_name=$(ask "1. Skill name (e.g. 'researcher', 'life-coach'):")
 if [[ -z "$skill_name" ]]; then
   println "Skill name is required."
   exit 1
@@ -92,7 +92,7 @@ fi
 
 println ""
 before_starting=$(ask "2. Before Starting — what context or setup does Claude need before running this skill?
-(e.g. 'user must be in a git repo', 'requires an open PR')")
+(e.g. 'You have access to the web browser tool and can search internet', 'You can browse this machine's filesystem and run commands')")
 
 println ""
 how_it_works=$(ask "3. How This Skill Works — describe the steps Claude should take:")
