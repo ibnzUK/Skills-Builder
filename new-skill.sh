@@ -33,25 +33,25 @@ A SKILL.md file is a markdown document that tells Claude Code how to perform a s
 
 - name: skill name (lowercase, hyphens only, max 64 chars)
 - description: what the skill does and when to use it. Front-load the key use case. Max 250 chars. Include natural trigger keywords.
-- disable-model-invocation: true — set for user-invoked /slash-command skills
-- user-invocable: false — for background knowledge skills Claude auto-loads
+- disable-model-invocation: true - set for user-invoked /slash-command skills
+- user-invocable: false - for background knowledge skills Claude auto-loads
 - allowed-tools: space-separated pre-approved tools (e.g. "Bash(git *) Read")
 - argument-hint: shown in autocomplete, e.g. "[issue-number]"
 - effort: low | medium | high | max
-- context: fork — run in isolated subagent
+- context: fork - run in isolated subagent
 - agent: subagent type when context: fork is set
 
 ## String substitutions
-- $ARGUMENTS — all arguments passed at invocation
-- $ARGUMENTS[N] — specific argument by index
+- $ARGUMENTS - all arguments passed at invocation
+- $ARGUMENTS[N] - specific argument by index
 
 ## Rules
-- NEVER use when_to_use — not a valid field
+- NEVER use when_to_use - not a valid field
 - Skills do ONE thing well
 - Instructions are imperative and concrete
 - Keep under 500 lines
 
-Output ONLY the raw SKILL.md content — no explanation, no wrapper text.'
+Output ONLY the raw SKILL.md content - no explanation, no wrapper text.'
 }
 
 save_skill() {
@@ -91,30 +91,30 @@ if [[ -z "$skill_name" ]]; then
 fi
 
 println ""
-before_starting=$(ask "2. Before Starting — what context or setup does Claude need before running this skill?
+before_starting=$(ask "2. Before Starting - what context or setup does Claude need before running this skill?
 (e.g. 'You have access to the web browser tool and can search internet', 'You can browse this machine's filesystem and run commands')")
 
 println ""
-how_it_works=$(ask "3. How This Skill Works — describe the steps Claude should take:")
+how_it_works=$(ask "3. How This Skill Works - describe the steps Claude should take:")
 
 println ""
-proactive_triggers=$(ask "4. Proactive Triggers — when should Claude auto-trigger this without being explicitly asked?
+proactive_triggers=$(ask "4. Proactive Triggers - when should Claude auto-trigger this without being explicitly asked?
 (press Enter to skip)")
 
 println ""
-output_artifacts=$(ask "5. Output Artifacts — what does this skill produce?
+output_artifacts=$(ask "5. Output Artifacts - what does this skill produce?
 (e.g. 'a commit', 'a SKILL.md file', 'a summary in chat')")
 
 println ""
-output_format=$(ask "6. Output Format — how should the output be structured or presented?
+output_format=$(ask "6. Output Format - how should the output be structured or presented?
 (e.g. 'markdown table', 'bullet list', 'raw file saved to disk')")
 
 println ""
-related_skills=$(ask "7. Related Skills — any existing skills this works alongside or depends on?
+related_skills=$(ask "7. Related Skills - any existing skills this works alongside or depends on?
 (press Enter to skip)")
 
 println ""
-related_scripts=$(ask "8. Related Scripts — any scripts or tools this skill calls or references?
+related_scripts=$(ask "8. Related Scripts - any scripts or tools this skill calls or references?
 (press Enter to skip)")
 
 # Build generation prompt

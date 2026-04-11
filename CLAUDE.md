@@ -4,8 +4,8 @@ A CLI tool for generating Claude Code `SKILL.md` files using the Claude API.
 
 ## Project Structure
 
-- `src/index.ts` — main CLI entry point
-- `.claude/skills/` — generated skills (each in its own subfolder with a `SKILL.md`)
+- `src/index.ts` - main CLI entry point
+- `.claude/skills/` - generated skills (each in its own subfolder with a `SKILL.md`)
 
 ## Running
 

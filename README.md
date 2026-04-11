@@ -2,7 +2,7 @@
 
 A simple CLI tool to **create and refine `SKILL.md` files** for Claude Code.
 
-It helps you generate structured, high-quality skills using AI — either from scratch or by refining existing ones.
+It helps you generate structured, high-quality skills using AI - either from scratch or by refining existing ones.
 
 ---
 
@@ -15,12 +15,12 @@ It helps you generate structured, high-quality skills using AI — either from s
 
 You can run the tool in two ways:
 
-### Option 1 — Node (interactive builder)
+### Option 1 - Node (interactive builder)
 
 ```bash
 npm run dev
 ```
-### Option 2 — Shell script (guided prompts)
+### Option 2 - Shell script (guided prompts)
 
 ```bash
 ./new-skill.sh
@@ -47,5 +47,5 @@ output:
 Why did the Audi driver get nervous at the Tesla dealership?
 He realized his car still needed gas and a personality. 😄
 
-To be fair, Audi owners do have one advantage over Tesla owners — their car makes noise, so people actually know they're coming.
+To be fair, Audi owners do have one advantage over Tesla owners - their car makes noise, so people actually know they're coming.
 ```

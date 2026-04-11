@@ -400,7 +400,7 @@ const HTML = /* html */ `<!DOCTYPE html>
       }
 
       if (!res.ok) {
-        document.getElementById('modal-error').textContent = 'Invalid name — use lowercase letters, numbers, hyphens.';
+        document.getElementById('modal-error').textContent = 'Invalid name - use lowercase letters, numbers, hyphens.';
         return;
       }
 
