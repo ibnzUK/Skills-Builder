@@ -6,6 +6,11 @@ It helps you generate structured, high-quality skills using AI — either from s
 
 ---
 
+<img width="963" height="609" alt="image" src="https://github.com/user-attachments/assets/cea92784-6914-4d6e-a158-876d542159bb" />
+
+---
+
+
 ## Getting Started
 
 You can run the tool in two ways:
