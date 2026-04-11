@@ -395,11 +395,11 @@ const HTML = /* html */ `<!DOCTYPE html>
       color: var(--text-muted);
     }
 
-    .placeholder-logo { margin-bottom: 4px; opacity: 0.2; }
-
-    .placeholder h3 { font-size: 15px; font-weight: 500; color: var(--text-dim); }
+    .placeholder h3 { font-size: 15px; font-weight: 500; color: var(--text-dim); margin-bottom: 4px; }
 
     .placeholder p { font-size: 12px; }
+
+    .pixel-robot { image-rendering: pixelated; display: block; margin-bottom: 20px; }
 
     /* ─── Modal ─────────────────────────────────────────────── */
     .modal-overlay {
@@ -523,14 +523,33 @@ const HTML = /* html */ `<!DOCTYPE html>
         </div>
         <div class="content" id="content">
           <div class="placeholder">
-            <div class="placeholder-logo">
-              <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#cc785c" opacity="0.2"/>
-                <path d="M21 22c0-6.075 4.925-11 11-11s11 4.925 11 11v4h-4v-4a7 7 0 10-14 0v4h-4v-4z" fill="#cc785c" opacity="0.6"/>
-                <rect x="17" y="26" width="30" height="21" rx="4" fill="#cc785c" opacity="0.6"/>
-                <circle cx="32" cy="36" r="3" fill="#111110"/>
-              </svg>
-            </div>
+            <!-- Pixel-art Claude Code robot (matches the Claude Code welcome screen) -->
+            <!-- Each rect is one "pixel" block. p=10px. Grid: 14 wide x 15 tall -->
+            <svg class="pixel-robot" width="140" height="150" viewBox="0 0 140 150" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+              <!-- HEAD: cols 2-11 (10 wide), rows 0-2 (3 tall) -->
+              <rect x="20" y="0"   width="100" height="10" fill="#d4736a"/>
+              <rect x="20" y="10"  width="100" height="10" fill="#d4736a"/>
+              <rect x="20" y="20"  width="100" height="10" fill="#d4736a"/>
+
+              <!-- SHOULDERS: cols 0-13 (14 wide), row 3 -->
+              <rect x="0"  y="30"  width="140" height="10" fill="#d4736a"/>
+
+              <!-- BODY STRIPES: 4 bars, each 20px wide, 20px gaps (4×20 + 3×20 = 140) -->
+              <rect x="0"   y="40" width="20" height="60" fill="#d4736a"/>
+              <rect x="40"  y="40" width="20" height="60" fill="#d4736a"/>
+              <rect x="80"  y="40" width="20" height="60" fill="#d4736a"/>
+              <rect x="120" y="40" width="20" height="60" fill="#d4736a"/>
+
+              <!-- BASE: cols 0-13, row 10 -->
+              <rect x="0"  y="100" width="140" height="10" fill="#d4736a"/>
+
+              <!-- LEFT FOOT: under bar 1 -->
+              <rect x="0"   y="110" width="20" height="40" fill="#d4736a"/>
+
+              <!-- RIGHT FOOT: under bar 4 -->
+              <rect x="120" y="110" width="20" height="40" fill="#d4736a"/>
+            </svg>
+
             <h3>Please select a skill</h3>
             <p>Choose a skill from the sidebar to view and edit it</p>
           </div>
