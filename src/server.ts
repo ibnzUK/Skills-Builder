@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 const app = express();
-const PORT = 3456;
+const PORT = 3000;
 
 app.use(express.text({ type: "text/plain" }));
 app.use(express.json());
@@ -77,9 +77,29 @@ app.post("/api/skills", (req, res) => {
 });
 
 app.get("/styles.css", (_req, res) => {
+  res.setHeader("Cache-Control", "no-store");
   res.type("text/css").send(
     fs.readFileSync(path.join(process.cwd(), "src", "server.module.css"), "utf-8")
   );
+});
+
+// ── CSS hot-reload via SSE ───────────────────────────────
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const sseClients = new Set<any>();
+
+app.get("/sse", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+  res.flushHeaders();
+  sseClients.add(res);
+  req.on("close", () => sseClients.delete(res));
+});
+
+fs.watch(path.join(process.cwd(), "src", "server.module.css"), () => {
+  for (const client of sseClients) {
+    client.write("event: css-reload\ndata: {}\n\n");
+  }
 });
 
 app.get("/", (_req, res) => {
@@ -395,6 +415,19 @@ const HTML = /* html */ `<!DOCTYPE html>
     }
 
     loadSkills(null);
+
+    // ── CSS hot-reload ──────────────────────────────────────
+    (function () {
+      function connect() {
+        const es = new EventSource('/sse');
+        es.addEventListener('css-reload', () => {
+          const link = document.querySelector('link[rel="stylesheet"]');
+          if (link) link.setAttribute('href', '/styles.css?t=' + Date.now());
+        });
+        es.onerror = () => { es.close(); setTimeout(connect, 2000); };
+      }
+      connect();
+    })();
   </script>
 </body>
 </html>`;

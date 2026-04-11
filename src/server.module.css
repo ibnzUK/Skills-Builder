@@ -1,13 +1,13 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:          #111110;
+  --bg:          #c7c7c3;
   --surface:     #1a1917;
   --surface2:    #201f1d;
   --border:      #2e2c29;
   --border-soft: #242220;
   --text:        #eeebe6;
-  --text-muted:  #6b6760;
+  --text-muted:  #e4e4e4;
   --text-dim:    #9b9690;
   --accent:      #cc785c;
   --accent-dim:  rgba(204,120,92,0.12);
@@ -52,7 +52,7 @@ html, body {
 }
 
 .titlebar-title {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--text-dim);
   letter-spacing: 0.01em;
@@ -83,7 +83,7 @@ html, body {
 
 .sidebar-section-label {
   padding: 14px 14px 6px;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -121,7 +121,7 @@ html, body {
 .skill-slash {
   color: var(--accent);
   font-family: "SF Mono", Menlo, Consolas, monospace;
-  font-size: 12px;
+  font-size: 15px;
   margin-right: 1px;
   opacity: 0.7;
 }
@@ -130,7 +130,7 @@ html, body {
 
 .skill-name {
   font-family: "SF Mono", Menlo, Consolas, monospace;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-dim);
 }
 
