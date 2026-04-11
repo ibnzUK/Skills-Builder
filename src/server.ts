@@ -76,6 +76,13 @@ app.post("/api/skills", (req, res) => {
   res.json({ name });
 });
 
+app.get("/logo.svg", (_req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  res.type("image/svg+xml").send(
+    fs.readFileSync(path.join(process.cwd(), "src", "logo.svg"), "utf-8")
+  );
+});
+
 app.get("/styles.css", (_req, res) => {
   res.setHeader("Cache-Control", "no-store");
   res.type("text/css").send(
@@ -120,7 +127,7 @@ const HTML = /* html */ `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claude · Skills Builder</title>
+  <title>Agent · Skills Builder</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
@@ -129,14 +136,9 @@ const HTML = /* html */ `<!DOCTYPE html>
     <!-- Titlebar -->
     <div class="titlebar">
       <div class="logo">
-        <svg width="20" height="20" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#cc785c" opacity="0.15"/>
-          <path d="M21 22c0-6.075 4.925-11 11-11s11 4.925 11 11v4h-4v-4a7 7 0 10-14 0v4h-4v-4z" fill="#cc785c"/>
-          <rect x="17" y="26" width="30" height="21" rx="4" fill="#cc785c"/>
-          <circle cx="32" cy="36" r="3" fill="#111110"/>
-        </svg>
+        <img src="/logo.svg" width="20" height="20" alt="Agent" />
       </div>
-      <span class="titlebar-title">Claude <span class="titlebar-sep">·</span> <span>Skills Builder</span></span>
+      <span class="titlebar-title">Agent <span class="titlebar-sep">·</span> <span>Skills Builder</span></span>
     </div>
 
     <div class="body">
@@ -159,7 +161,7 @@ const HTML = /* html */ `<!DOCTYPE html>
         </div>
         <div class="content" id="content">
           <div class="placeholder">
-            <!-- Pixel-art Claude Code robot (matches the Claude Code welcome screen) -->
+            <!-- Pixel-art Agent Code robot (matches the Claude Code welcome screen) -->
             <!-- Each rect is one "pixel" block. p=10px. Grid: 14 wide x 15 tall -->
             <svg class="pixel-robot" width="140" height="150" viewBox="0 0 140 150" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
               <!-- HEAD: cols 2-11 (10 wide), rows 0-2 (3 tall) -->
@@ -199,7 +201,7 @@ const HTML = /* html */ `<!DOCTYPE html>
   <div class="modal-overlay hidden" id="modal-overlay" onclick="handleOverlayClick(event)">
     <div class="modal">
       <div class="modal-title">
-        <svg width="14" height="14" viewBox="0 0 64 64" fill="none"><path d="M21 22c0-6.075 4.925-11 11-11s11 4.925 11 11v4h-4v-4a7 7 0 10-14 0v4h-4v-4z" fill="#cc785c"/><rect x="17" y="26" width="30" height="21" rx="4" fill="#cc785c"/><circle cx="32" cy="36" r="3" fill="#111110"/></svg>
+        <img src="/logo.svg" width="14" height="14" alt="Claude" />
         <h3>New skill</h3>
       </div>
       <p>Lowercase letters, numbers, and hyphens only.</p>
