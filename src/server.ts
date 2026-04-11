@@ -377,6 +377,13 @@ const HTML = /* html */ `<!DOCTYPE html>
     .editor::-webkit-scrollbar-track { background: transparent; }
     .editor::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
+    .loading-msg {
+      padding: 20px 40px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+
     /* ─── Placeholder ───────────────────────────────────────── */
     .placeholder {
       flex: 1;
@@ -603,7 +610,7 @@ const HTML = /* html */ `<!DOCTYPE html>
       setHeader(selected);
 
       const content = document.getElementById('content');
-      content.innerHTML = '<div style="padding:20px 40px;font-size:12px;color:var(--text-muted);font-family:\'SF Mono\',Menlo,Consolas,monospace;">Loading…</div>';
+      content.innerHTML = '<div class="loading-msg">Loading\u2026</div>';
 
       const res = await fetch('/api/skills/' + selected);
       if (!res.ok) {
