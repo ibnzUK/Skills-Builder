@@ -5,7 +5,8 @@
   "scripts": {
     "start": "tsx src/index.ts",
     "build": "tsc",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+    "ui": "tsx src/server.ts"
   },
   "keywords": [],
   "author": "",
