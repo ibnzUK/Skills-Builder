@@ -292,21 +292,68 @@ const HTML = /* html */ `<!DOCTYPE html>
         '<button class="btn-save" id="btn-save" onclick="saveSkill()">Save</button>';
     }
 
+    // ── Markdown syntax highlighter ──────────────────────────
+
+    function mdHighlight(raw) {
+      const lines = raw.split('\n');
+      let inFM = false, idx = 0;
+      return lines.map(function(line) {
+        idx++;
+        // HTML-escape
+        let s = line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+        // Frontmatter delimiters
+        if (idx === 1 && s === '---') { inFM = true; return '<span class="mk-fence">---</span>'; }
+        if (inFM && s === '---')      { inFM = false; return '<span class="mk-fence">---</span>'; }
+        if (inFM) return s.replace(/^([a-zA-Z_][a-zA-Z0-9_-]*:)(.*)$/, '<span class="mk-key">$1</span>$2');
+
+        // Code fence (triple backtick) - use \\x60 hex escapes to avoid template-literal issues
+        if (s.match(/^\x60\x60\x60/)) return '<span class="mk-fence">' + s + '</span>';
+
+        // Headings # … ######
+        const hm = s.match(/^(#{1,6} )(.*)/);
+        if (hm) return '<span class="mk-h">' + hm[1] + hm[2] + '</span>';
+
+        // Inline patterns (order matters: code first to avoid re-processing its content)
+        s = s.replace(/(\x60[^\x60]+\x60)/g, '<span class="mk-code">$1</span>');
+        s = s.replace(/(\*\*(?:[^*]|\*(?!\*))+\*\*)/g, '<span class="mk-bold">$1</span>');
+        s = s.replace(/(\[[^\]\n]*\])(\([^)\n]*\))/g, '<span class="mk-link">$1</span><span class="mk-url">$2</span>');
+        s = s.replace(/^(\s*[-*+] )/, function(m) { return '<span class="mk-bullet">' + m + '</span>'; });
+
+        return s;
+      }).join('\n');
+    }
+
     // ── Editor ───────────────────────────────────────────────
 
     function showEditor(content) {
       const container = document.getElementById('content');
       container.innerHTML =
+        '<div class="editor-wrap">' +
+        '<pre class="highlight-layer" id="highlight-layer" aria-hidden="true"></pre>' +
         '<textarea class="editor" id="editor" spellcheck="false">' +
         esc(content) +
-        '</textarea>';
+        '</textarea>' +
+        '</div>';
 
-      document.getElementById('editor').addEventListener('keydown', function(e) {
+      const editor = document.getElementById('editor');
+      const hl     = document.getElementById('highlight-layer');
+
+      function updateHighlight() {
+        hl.innerHTML = mdHighlight(editor.value) + '\n ';
+      }
+
+      updateHighlight();
+
+      editor.addEventListener('input', updateHighlight);
+      editor.addEventListener('scroll', function() { hl.scrollTop = editor.scrollTop; });
+      editor.addEventListener('keydown', function(e) {
         if (e.key === 'Tab') {
           e.preventDefault();
           const s = this.selectionStart, end = this.selectionEnd;
           this.value = this.value.slice(0, s) + '  ' + this.value.slice(end);
           this.selectionStart = this.selectionEnd = s + 2;
+          updateHighlight();
         }
       });
     }
