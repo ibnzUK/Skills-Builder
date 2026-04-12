@@ -295,7 +295,7 @@ const HTML = /* html */ `<!DOCTYPE html>
     // ── Markdown syntax highlighter ──────────────────────────
 
     function mdHighlight(raw) {
-      const lines = raw.split('\n');
+      const lines = raw.split('\\n');
       let inFM = false, idx = 0;
       return lines.map(function(line) {
         idx++;
@@ -316,12 +316,12 @@ const HTML = /* html */ `<!DOCTYPE html>
 
         // Inline patterns (order matters: code first to avoid re-processing its content)
         s = s.replace(/(\x60[^\x60]+\x60)/g, '<span class="mk-code">$1</span>');
-        s = s.replace(/(\*\*(?:[^*]|\*(?!\*))+\*\*)/g, '<span class="mk-bold">$1</span>');
-        s = s.replace(/(\[[^\]\n]*\])(\([^)\n]*\))/g, '<span class="mk-link">$1</span><span class="mk-url">$2</span>');
-        s = s.replace(/^(\s*[-*+] )/, function(m) { return '<span class="mk-bullet">' + m + '</span>'; });
+        s = s.replace(/(\\*\\*(?:[^*]|\\*(?!\\*))+\\*\\*)/g, '<span class="mk-bold">$1</span>');
+        s = s.replace(/(\\[[^\\]\\n]*\\])(\\([^)\\n]*\\))/g, '<span class="mk-link">$1</span><span class="mk-url">$2</span>');
+        s = s.replace(/^(\\s*[-*+] )/, function(m) { return '<span class="mk-bullet">' + m + '</span>'; });
 
         return s;
-      }).join('\n');
+      }).join('\\n');
     }
 
     // ── Editor ───────────────────────────────────────────────
@@ -340,7 +340,7 @@ const HTML = /* html */ `<!DOCTYPE html>
       const hl     = document.getElementById('highlight-layer');
 
       function updateHighlight() {
-        hl.innerHTML = mdHighlight(editor.value) + '\n ';
+        hl.innerHTML = mdHighlight(editor.value) + '\\n ';
       }
 
       updateHighlight();
